@@ -17,7 +17,7 @@ func NotFoundResponse(c *gin.Context, respContent interface{}) {
 	c.JSON(http.StatusNotFound, respContent)
 }
 
-func ConlictResponse(c *gin.Context, respContent interface{}) {
+func ConflictResponse(c *gin.Context, respContent interface{}) {
 	c.JSON(http.StatusConflict, respContent)
 }
 
