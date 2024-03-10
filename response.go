@@ -1,4 +1,4 @@
-package rest_response_lib
+package restlib
 
 import (
 	"github.com/gin-gonic/gin"
