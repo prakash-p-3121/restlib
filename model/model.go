@@ -6,5 +6,5 @@ type IDResponse struct {
 
 type MsConnectionCfg struct {
 	Host string `json:"host"`
-	Port uint   `json:"port"`
+	Port int64  `json:"port"`
 }

@@ -30,7 +30,7 @@ func CreateMsConnectionCfg(cfgPath string) (*sync.Map, error) {
 			return nil, err
 		}
 		host := valueMap["host"].(string)
-		port := valueMap["port"].(uint)
+		port := valueMap["port"].(int64)
 
 		cfg := &model.MsConnectionCfg{Host: host, Port: port}
 		userPtr := unsafe.Pointer(cfg)
