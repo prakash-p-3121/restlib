@@ -33,8 +33,8 @@ func CreateMsConnectionCfg(cfgPath string) (*sync.Map, error) {
 		port := valueMap["port"].(int64)
 
 		cfg := &model.MsConnectionCfg{Host: host, Port: port}
-		userPtr := unsafe.Pointer(cfg)
-		newCfgPtr := atomic.SwapPointer(&userPtr, unsafe.Pointer(&model.MsConnectionCfg{
+		cfgPtr := unsafe.Pointer(cfg)
+		newCfgPtr := atomic.SwapPointer(&cfgPtr, unsafe.Pointer(&model.MsConnectionCfg{
 			Host: cfg.Host,
 			Port: cfg.Port,
 		}))
@@ -45,13 +45,11 @@ func CreateMsConnectionCfg(cfgPath string) (*sync.Map, error) {
 }
 
 func RetrieveMsConnectionCfg(cfgMap *sync.Map, msName string) (model.MsConnectionCfg, error) {
-	valuePtr, ok := cfgMap.Load(msName)
+	value, ok := cfgMap.Load(msName)
 	if !ok {
 		return model.MsConnectionCfg{}, errors.New("not-found")
 	}
-	cfgPtr, ok := valuePtr.(*model.MsConnectionCfg)
-	if !ok {
-		return model.MsConnectionCfg{}, errors.New("invalid-datatype")
-	}
+	valuePtr := value.(unsafe.Pointer)
+	cfgPtr := (*model.MsConnectionCfg)(valuePtr)
 	return *cfgPtr, nil
 }
